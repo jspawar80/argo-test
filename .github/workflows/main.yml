@@ -38,7 +38,7 @@ jobs:
           name: deployment-artifact
           path: ./downloaded-artifact
 
-      - name: Initialize Git Repository
+      - name: Initialize and Push Changes
         run: |
           cd downloaded-artifact
           git init
@@ -46,8 +46,5 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add .
           git commit -m "Initialize repository with downloaded files"
-
-      - name: Push Changes
-        run: |
-          cd downloaded-artifact
+          git remote add origin https://github.com/jspawar80/argo-test.git
           git push --force origin HEAD:${{ github.ref }}
