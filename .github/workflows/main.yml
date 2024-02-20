@@ -38,12 +38,16 @@ jobs:
           name: deployment-artifact
           path: ./downloaded-artifact
 
-      - name: Commit and Push Changes
+      - name: Initialize Git Repository
         run: |
           cd downloaded-artifact
+          git init
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
-          
           git add .
-          git commit -m "Update files with the latest changes"
-          git push origin HEAD:${{ github.ref }}
+          git commit -m "Initialize repository with downloaded files"
+
+      - name: Push Changes
+        run: |
+          cd downloaded-artifact
+          git push --force origin HEAD:${{ github.ref }}
