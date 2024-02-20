@@ -25,5 +25,5 @@ jobs:
           git config --global user.email 'jspawar80@gmail.com'
           git commit -am "Update model to $MODEL_URL"
           git push https://github.com/jspawar80/argo-test.git HEAD:main
-        env:
-          GITHUB_TOKEN: ${{ secrets.S3_PAT }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.S3_PAT }}
