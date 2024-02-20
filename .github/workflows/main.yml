@@ -1,0 +1,27 @@
+name: Staging Deployment via Dispatch
+
+on:
+  repository_dispatch:
+    types: [deploy-staging]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to Staging Environment..."
+          # Your deployment script or commands go here
+          echo "model_s3_url: ${{ github.event.client_payload.model_s3_url }}"
+
+      - name: Set Model S3 URL
+        run: |
+          sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' argocd/argo-rollout.yml
+          cat argocd/argo-rollout.yml
+          git config --global user.name 'jspawar80'
+          git config --global user.email 'jspawar80@gmail.com'
+          git commit -am "Update model to $MODEL_URL"
+          git push
