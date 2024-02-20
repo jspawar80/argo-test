@@ -25,7 +25,8 @@ jobs:
       - name: Commit and Push Changes
         uses: mikeal/publish-to-github-action@master
         with:
-          files: argocd/argo-rollout.yml
-          commitMessage: "Add new_file.txt"
+          entryPoint: sh
+          args: -c 'git config --global user.name "GitHub Actions" && git config --global user.email "actions@github.com" && git add new_file.txt && git commit -m "Add new_file.txt" && git push origin main'
+  
         env:
           GITHUB_TOKEN: ${{ secrets.S3_PAT }}
