@@ -26,5 +26,7 @@ jobs:
           
       - name: Commit and Push Changes
         uses: mikeal/publish-to-github-action@master
+        with:
+           branch: main
         env:
            GITHUB_TOKEN: ${{ secrets.S3_PAT }}
