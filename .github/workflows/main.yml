@@ -23,12 +23,6 @@ jobs:
           cat argocd/argo-rollout.yml
           
       - name: Commit and Push Changes
-        run: |
-           git config --global user.name "GitHub Actions"
-           git config --global user.email "actions@github.com"
-           git add argo-rollout.yml
-           git commit -m "Add new_file.txt"
-           git push origin main
+        uses: mikeal/publish-to-github-action@master
         env:
-         GITHUB_TOKEN: ${{ secrets.S3_PAT }}
-
+           GITHUB_TOKEN: ${{ secrets.S3_PAT }}
