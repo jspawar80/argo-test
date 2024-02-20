@@ -27,3 +27,5 @@ jobs:
         with:
           files: argocd/argo-rollout.yml
           commitMessage: "Add new_file.txt"
+        env:
+          GITHUB_TOKEN: ${{ secrets.S3_PAT }}
