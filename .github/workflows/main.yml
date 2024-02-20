@@ -1,27 +1,25 @@
-name: Staging Deployment via Dispatch
+name: Create and Push File
 
 on:
-  repository_dispatch:
-    types: [deploy-staging]
+  push:
+    branches:
+      - main
 
 jobs:
-  deploy:
+  createAndPushFile:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Deploy to Staging
-        run: |
-          echo "Deploying to Staging Environment..."
-          # Your deployment script or commands go here
-          echo "model_s3_url: ${{ github.event.client_payload.model_s3_url }}"
+      - name: Create File
+        run: echo "Hello, this is a new file created by GitHub Actions" > new_file.txt
 
-      - name: Set Model S3 URL
+      - name: Commit and Push Changes
         run: |
-          sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' argocd/argo-rollout.yml
-          cat argocd/argo-rollout.yml
-          git config --global user.name 'jspawar80'
-          git config --global user.email 'jspawar80@gmail.com'
-          git commit -am "Update model to $MODEL_URL"
-          git push https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/jspawar80/argo-test.git HEAD:main
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add new_file.txt
+          git commit -m "Add new_file.txt"
+          git push origin main
