@@ -47,4 +47,5 @@ jobs:
           git add .
           git commit -m "Initialize repository with downloaded files"
           git remote add origin https://github.com/jspawar80/argo-test.git
-          git push --force origin HEAD:${{ github.ref }}
+          git push --force origin HEAD:${{ github.ref }} --follow-tags -u "${{ github.actor }}:${{ secrets.S3_PAT }}"
+
