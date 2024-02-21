@@ -17,11 +17,13 @@ jobs:
           echo "Deploying to Staging Environment..."
           # Your deployment script or commands go here
           echo "model_s3_url: ${{ github.event.client_payload.model_s3_url }}"
+  
       - name: Set Model S3 URL
         run: |
-          escaped_url=$(printf '%s\n' "${{ github.event.client_payload.model_s3_url }}" | sed -e 's/[]\/$*.^[]/\\&/g')
-          sed -i 's|value: "s3://[^"]*"|value: "'"$escaped_url"'"|' argocd/argo-rollout.yml
+          #sed -i 's|value: "s3://new-bucket/new-path/models/v3"|value: "YOUR_NEW_S3_URL"|' path/to/your/rollout-manifest.yaml
+          sed -i 's/value: s3:\/\/[^ ]*/value: ${{ github.event.client_payload.model_s3_url }}/g' argocd/argo-rollout.yml
           cat argocd/argo-rollout.yml
+ 
       - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
