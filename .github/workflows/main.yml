@@ -40,7 +40,7 @@ jobs:
 
       - name: List Files in Downloaded Artifact
         run: |
-          ls -R ./downloaded-artifact
+          find ./downloaded-artifact
 
       - name: Update Model S3 URL
         run: |
