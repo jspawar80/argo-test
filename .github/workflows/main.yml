@@ -24,21 +24,16 @@ jobs:
         run: |
           sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' argocd/argo-rollout.yml
           cat argocd/argo-rollout.yml
+          git checkout -b test  # Create and switch to the 'test' branch if it doesn't exist
+          git add argocd/argo-rollout.yml
+          git commit -m "Update model_s3_url in argo-rollout.yml"
+          git push origin test
+
 
       - name: Verify Changes
         run: cat argocd/argo-rollout.yml
 
-      - name: Commit and Push Changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          if [[ -n $(git status -s) ]]; then
-            git add argocd/argo-rollout.yml
-            git commit -m "Update model_s3_url in argo-rollout.yml"
-            git push -u origin test
-          else
-            echo "No changes to commit."
-          fi
+
 
       - name: Create Artifact
         uses: actions/upload-artifact@v2
