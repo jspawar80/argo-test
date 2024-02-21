@@ -1,4 +1,3 @@
-
 name: Staging Deployment via Dispatch
 
 on:
@@ -12,6 +11,9 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
+      - name: Switch to Test Branch
+        run: git checkout test
+
       - name: Deploy to Staging
         run: |
           echo "Deploying to Staging Environment..."
@@ -20,18 +22,24 @@ jobs:
   
       - name: Set Model S3 URL
         run: |
-          #sed -i 's|value: "s3://new-bucket/new-path/models/v3"|value: "YOUR_NEW_S3_URL"|' path/to/your/rollout-manifest.yaml
           sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' argocd/argo-rollout.yml
-          #sed -i 's/value: s3:\/\/[^ ]*/value: ${{ github.event.client_payload.model_s3_url }}/g' argocd/argo-rollout.yml
           cat argocd/argo-rollout.yml
- 
+
+      - name: Verify Changes
+        run: cat argocd/argo-rollout.yml
+
       - name: Commit and Push Changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add argocd/argo-rollout.yml
-          git commit -m "Update model_s3_url in argo-rollout.yml"
-          git push -u origin test
+          if [[ -n $(git status -s) ]]; then
+            git add argocd/argo-rollout.yml
+            git commit -m "Update model_s3_url in argo-rollout.yml"
+            git push -u origin test
+          else
+            echo "No changes to commit."
+          fi
+
       - name: Create Artifact
         uses: actions/upload-artifact@v2
         with:
