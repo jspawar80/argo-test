@@ -31,7 +31,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git add argocd/argo-rollout.yml
           git commit -m "Update model_s3_url in argo-rollout.yml"
-          git push
+          git push -u origin test
       - name: Create Artifact
         uses: actions/upload-artifact@v2
         with:
