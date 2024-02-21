@@ -61,7 +61,7 @@ spec:
         - name: model_version
           value: "0.1"
         - name: model_s3_url
-          value: "s3://data-science2"
+          value: "s3://data2"
 
   strategy:
     canary:
