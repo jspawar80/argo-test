@@ -23,6 +23,14 @@ jobs:
           sed -i 's|value: "s3://[^"]*"|value: "'"$escaped_url"'"|' argocd/argo-rollout.yml
           cat argocd/argo-rollout.yml
 
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add argocd/argo-rollout.yml
+          git commit -m "Update model_s3_url in argo-rollout.yml"
+          git push
+
       - name: Create Artifact
         uses: actions/upload-artifact@v2
         with:
