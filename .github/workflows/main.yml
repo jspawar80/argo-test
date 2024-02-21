@@ -11,9 +11,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
 
-      - name: Switch to Test Branch
-        run: git checkout test
-
       - name: Deploy to Staging
         run: |
           echo "Deploying to Staging Environment..."
