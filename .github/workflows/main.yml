@@ -37,7 +37,7 @@ jobs:
         with:
           path: argocd/argo-rollout.yml
           yaml_key: "model_s3_url"
-          yaml_value: "s3://new-model-s3-url"
+          yaml_value: "${{ github.event.client_payload.model_s3_url }}"
           
       - name: Create Artifact
         uses: actions/upload-artifact@v2
