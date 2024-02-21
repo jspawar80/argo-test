@@ -20,7 +20,7 @@ jobs:
       - name: Set Model S3 URL
         run: |
           sed -i 's/value: s3:\/\/[^ ]*/value: ${{ github.event.client_payload.model_s3_url }}/g' argocd/argo-rollout.yml
-          cat argocd/argo-rollout.ym
+          cat argocd/argo-rollout.yml
 
       - name: Commit and Push Changes
         run: |
