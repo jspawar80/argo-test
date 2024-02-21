@@ -28,7 +28,7 @@ jobs:
           commit_message: "Update model_s3_url in argo-rollout.yml"
           commit_user_name: "GitHub Actions"
           commit_user_email: "actions@github.com"
-          branch: main  # replace with your branch name
+          branch: test  # replace with your branch name
           files: |
             argocd/argo-rollout.yml
 
