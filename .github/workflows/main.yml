@@ -38,6 +38,10 @@ jobs:
           name: deployment-artifact
           path: ./downloaded-artifact
 
+      - name: List Files in Downloaded Artifact
+        run: |
+          ls -R ./downloaded-artifact
+
       - name: Update Model S3 URL
         run: |
           sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' ./downloaded-artifact/argocd/argo-rollout.yml
