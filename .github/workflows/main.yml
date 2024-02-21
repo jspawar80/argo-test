@@ -32,12 +32,12 @@ jobs:
       #     files: |
       #       argocd/argo-rollout.yml
 
-      - name: Commit and Push Changes
+      - name: Set Model S3 URL
         uses: fjogeleit/yaml-update-action@main
         with:
           path: argocd/argo-rollout.yml
-          yaml_key: "value"
-          yaml_value: "${{ github.event.client_payload.model_s3_url }}"
+          yaml_key: "model_s3_url"
+          yaml_value: "s3://new-model-s3-url"
           
       - name: Create Artifact
         uses: actions/upload-artifact@v2
