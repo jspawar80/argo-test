@@ -61,7 +61,7 @@ spec:
         - name: model_version
           value: "0.1"
         - name: model_s3_url
-          value: "s3://new-bucket/new-path/models/v3"
+          value: "your_model_s3_url_value"
 
   strategy:
     canary:
