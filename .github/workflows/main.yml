@@ -19,11 +19,9 @@ jobs:
   
       - name: Set Model S3 URL
         run: |
-          #sed -i 's|value: "s3://new-bucket/new-path/models/v3"|value: "YOUR_NEW_S3_URL"|' path/to/your/rollout-manifest.yaml
           sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' argocd/argo-rollout.yml
-          #sed -i 's/value: s3:\/\/[^ ]*/value: ${{ github.event.client_payload.model_s3_url }}/g' argocd/argo-rollout.yml
           cat argocd/argo-rollout.yml
- 
+
       - name: Commit and Push Changes
         run: |
           git config --global user.email "jspawar80@gmail.com"
@@ -31,9 +29,16 @@ jobs:
           git checkout -b test
           git add argocd/argo-rollout.yml
           git commit -m "Update model_s3_url in argo-rollout.yml"
+          
+          # Fetch and merge changes from the remote branch
+          git fetch origin test
+          git merge origin/test
+
+          # Push changes to the remote branch
           git push origin test
+          
       - name: Create Artifact
         uses: actions/upload-artifact@v2
         with:
           name: deployment-artifact
-          path: argocd/argo-rollout.yml 
+          path: argocd/argo-rollout.yml
