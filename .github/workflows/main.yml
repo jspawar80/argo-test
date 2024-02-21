@@ -29,13 +29,9 @@ jobs:
           git checkout -b test
           git add argocd/argo-rollout.yml
           git commit -m "Update model_s3_url in argo-rollout.yml"
-          
-          # Fetch and merge changes from the remote branch
-          git fetch origin test
-          git merge origin/test
 
-          # Push changes to the remote branch
-          git push origin test
+          # Force push changes to the remote branch
+          git push origin test --force
           
       - name: Create Artifact
         uses: actions/upload-artifact@v2
