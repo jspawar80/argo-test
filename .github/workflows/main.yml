@@ -22,16 +22,22 @@ jobs:
           sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' argocd/argo-rollout.yml
           cat argocd/argo-rollout.yml
 
-      - name: Commit and Push Changes
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: "Update model_s3_url in argo-rollout.yml"
-          commit_user_name: "GitHub Actions"
-          commit_user_email: "actions@github.com"
-          branch: test  # replace with your branch name
-          files: |
-            argocd/argo-rollout.yml
+      # - name: Commit and Push Changes
+      #   uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: "Update model_s3_url in argo-rollout.yml"
+      #     commit_user_name: "GitHub Actions"
+      #     commit_user_email: "actions@github.com"
+      #     branch: test  # replace with your branch name
+      #     files: |
+      #       argocd/argo-rollout.yml
 
+      - name: Commit and Push Changes
+        uses: fjogeleit/yaml-update-action@main
+        with:
+          path: argocd/argo-rollout.yml
+          yaml_key: "value"
+          yaml_value: "${{ github.event.client_payload.model_s3_url }}"
           
       - name: Create Artifact
         uses: actions/upload-artifact@v2
