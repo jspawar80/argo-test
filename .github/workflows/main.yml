@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
-
+  
       - name: Deploy to Staging
         run: |
           echo "Deploying to Staging Environment..."
@@ -24,11 +24,17 @@ jobs:
 
       - name: Commit and Push Changes
         run: |
-          git config --global user.email "jspawar80@gmail.com"
-          git config --global user.name "jspawar80"
-          git checkout -b test
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
           git add argocd/argo-rollout.yml
           git commit -m "Update model_s3_url in argo-rollout.yml"
+          git push origin test --force
+          
+          # git config -- user.email "jspawar80@gmail.com"
+          # git config --global user.name "jspawar80"
+          # git checkout -b test
+          # git add argocd/argo-rollout.yml
+          # git commit -m "Update model_s3_url in argo-rollout.yml"
 
           # Force push changes to the remote branch
           git push origin test --force
