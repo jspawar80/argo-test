@@ -19,36 +19,12 @@ jobs:
 
       - name: Set Model S3 URL
         run: |
-          sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' argocd/argo-rollout.yml
+          escaped_url=$(printf '%s\n' "${{ github.event.client_payload.model_s3_url }}" | sed -e 's/[]\/$*.^[]/\\&/g')
+          sed -i 's|value: "s3://[^"]*"|value: "'"$escaped_url"'"|' argocd/argo-rollout.yml
           cat argocd/argo-rollout.yml
 
       - name: Create Artifact
         uses: actions/upload-artifact@v2
         with:
           name: deployment-artifact
-          path: argocd/argo-rollout.yml  # Update this path to the directory containing your modified files
-
-  update-files:
-    needs: deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v2
-        with:
-          name: deployment-artifact
-          path: ./downloaded-artifact
-
-      - name: List Files in Downloaded Artifact
-        run: |
-          find ./downloaded-artifact
-
-      - name: Update Model S3 URL
-        run: |
-          sed -i 's|value: "s3://[^"]*"|value: "${{ github.event.client_payload.model_s3_url }}"|' ./downloaded-artifact/argocd/argo-rollout.yml
-          cat ./downloaded-artifact/argocd/argo-rollout.yml
-
-      - name: Upload Updated Artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: updated-deployment-artifact
-          path: ./downloaded-artifact
+          path: argocd/argo-rollout.yml  # Update this path to the directory containing your modified file
