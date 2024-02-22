@@ -28,7 +28,6 @@ jobs:
           
           git config -- user.email "jspawar80@gmail.com"
           git config --global user.name "jspawar80"
-          git checkout -b test
           git add argocd/argo-rollout.yml
           git commit -m "Update model_s3_url in argo-rollout.yml"
           git push origin test
