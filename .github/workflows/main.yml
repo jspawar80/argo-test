@@ -22,7 +22,7 @@ jobs:
         env:
           IMAGE_TAG: ${{github.event.client_payload.model_s3_url}}
         with:
-          valueFile: "base/decipher-ml/kustomization.yaml"
+          valueFile: "argocd/argo-rollout.yml"
           value: model_s3_url=${{ env.IMAGE_TAG }}
           propertyPath: configMapGenerator[0].literals[0]
           branch: main
